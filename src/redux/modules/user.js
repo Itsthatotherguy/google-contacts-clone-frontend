@@ -1,6 +1,6 @@
 //ANCHOR imports
 import axios from 'axios';
-import { setAuthorizationHeader, getUserData as getUserDataHelper } from '../../utils/helpers';
+import { setAuthorizationHeader } from '../../utils/helpers';
 
 //ANCHOR actions
 const LOGIN_USER_STARTED = 'user/LOGIN_USER_STARTED';

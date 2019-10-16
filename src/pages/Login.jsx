@@ -37,7 +37,6 @@ const useStyles = makeStyles({
         position: 'relative',
         marginBottom: '1rem',
     },
-    button: {},
     progressIndicator: {
         position: 'absolute',
         top: '50%',
@@ -45,7 +44,6 @@ const useStyles = makeStyles({
         marginTop: -12,
         marginLeft: -12,
     },
-    signUpText: {},
 });
 
 //TODO sign in with google
