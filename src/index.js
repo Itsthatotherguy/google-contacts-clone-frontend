@@ -9,10 +9,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 //redux
 import configureStore from './redux/configureStore';
 import { Provider } from 'react-redux';
+import { logoutUser, setAuthenticated, getUserData } from './redux/modules/user';
+
+//utils
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 const store = configureStore();
 
-const renderApp = () =>
+const renderApp = () => {
     render(
         <Provider store={store}>
             <Router>
@@ -21,8 +26,35 @@ const renderApp = () =>
         </Provider>,
         document.getElementById('root')
     );
+};
 
-renderApp();
+const getToken = () => {
+    return new Promise((resolve, reject) => {
+        try {
+            const token = localStorage.FBIdToken;
+            resolve(token);
+        } catch (err) {
+            reject(null);
+        }
+    });
+};
+
+getToken().then(token => {
+    console.log(token);
+
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp * 1000 > Date.now()) {
+            store.dispatch(setAuthenticated());
+            axios.defaults.headers.common['Authorization'] = token;
+            store.dispatch(getUserData());
+        } else {
+            store.dispatch(logoutUser());
+        }
+    }
+
+    renderApp();
+});
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./App', renderApp);
