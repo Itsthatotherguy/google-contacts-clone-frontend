@@ -104,14 +104,16 @@ export default function Navbar() {
                         Contacts
                     </Button>
                 </section>
-                <section className={classes.search}>
-                    <Container maxWidth='sm' className={classes.searchContainer}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase className={classes.searchInput} fullWidth />
-                    </Container>
-                </section>
+                {authenticated && (
+                    <section className={classes.search}>
+                        <Container maxWidth='sm' className={classes.searchContainer}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase className={classes.searchInput} fullWidth />
+                        </Container>
+                    </section>
+                )}
                 <section className={classes.userButtons}>
                     {authenticated ? (
                         <Fragment>

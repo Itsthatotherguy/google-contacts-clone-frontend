@@ -51,7 +51,10 @@ const useStyles = makeStyles(theme => ({
 		'&:not(:last-of-type)': {
 			marginBottom: theme.spacing(1),
 		},
-	},
+    },
+    icon: {
+        color: theme.palette.grey[800]
+    }
 }));
 
 export default function CreateContact() {
@@ -181,7 +184,7 @@ export default function CreateContact() {
 				<DialogTitle>Create new contact</DialogTitle>
 				<DialogContent>
 					<section className={classes.gridRow}>
-						<AccountCircleIcon />
+						<AccountCircleIcon className={classes.icon} />
 						<TextField
 							margin='dense'
 							variant='outlined'

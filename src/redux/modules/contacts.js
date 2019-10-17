@@ -5,11 +5,14 @@ const CREATE_CONTACT_STARTED = 'contacts/CREATE_CONTACT_STARTED';
 const CREATE_CONTACT_SUCCEEDED = 'contacts/CREATE_CONTACT_SUCCEEDED';
 const CREATE_CONTACT_FAILED = 'contacts/CREATE_CONTACT_FAILED';
 const CLEAR_ERRORS = 'contacts/CLEAR_ERRORS';
+const FETCH_CONTACTS_STARTED = 'contacts/FETCH_CONTACTS_STARTED';
+const FETCH_CONTACTS_SUCCEEDED = 'contacts/FETCH_CONTACTS_SUCCEEDED';
+const FETCH_CONTACTS_FAILED = 'contacts/FETCH_CONTACTS_FAILED';
 
 //ANCHOR reducer
 const initialState = {
     contacts: [],
-    isLoading: false,
+    isLoading: true,
     errors: {},
 };
 
@@ -40,6 +43,27 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 errors: {},
+            };
+        }
+        case FETCH_CONTACTS_STARTED: {
+            return {
+                ...state,
+                isLoading: true,
+                errors: {},
+            };
+        }
+        case FETCH_CONTACTS_SUCCEEDED: {
+            return {
+                ...state,
+                isLoading: false,
+                contacts: action.payload,
+            };
+        }
+        case FETCH_CONTACTS_FAILED: {
+            return {
+                ...state,
+                isLoading: false,
+                errors: action.payload,
             };
         }
         default:
@@ -73,6 +97,26 @@ export function clearErrors() {
     };
 }
 
+function fetchContactsStarted() {
+    return {
+        type: FETCH_CONTACTS_STARTED,
+    };
+}
+
+function fetchContactsSucceeded(contacts) {
+    return {
+        type: FETCH_CONTACTS_SUCCEEDED,
+        payload: contacts,
+    };
+}
+
+function fetchContactsFailed(errors) {
+    return {
+        type: FETCH_CONTACTS_FAILED,
+        payload: errors,
+    };
+}
+
 //ANCHOR side effects
 export function createContact(newContact) {
     return dispatch => {
@@ -85,6 +129,21 @@ export function createContact(newContact) {
             })
             .catch(err => {
                 dispatch(createContactFailed(err.response.data));
+            });
+    };
+}
+
+export function fetchContacts() {
+    return dispatch => {
+        dispatch(fetchContactsStarted());
+
+        axios
+            .get('/contacts')
+            .then(res => {
+                dispatch(fetchContactsSucceeded(res.data));
+            })
+            .catch(err => {
+                dispatch(fetchContactsFailed(err.response.data));
             });
     };
 }
