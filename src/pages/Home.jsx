@@ -1,5 +1,10 @@
 //react
-import React, { useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+
+//components
+import Contact from '../components/Contact';
+import CreateContactDialog from '../components/CreateContactDialog';
+import EditContactDialog from '../components/EditContactDialog';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,7 +12,7 @@ import { fetchContacts } from '../redux/modules/contacts';
 
 //mui
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,6 +21,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 
 //styles
 const useStyles = makeStyles(theme => ({
@@ -49,28 +55,92 @@ export default function Home() {
                         <TableCell>Email</TableCell>
                         <TableCell>Phone number</TableCell>
                         <TableCell>Job title &amp; company</TableCell>
+                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 {!isLoading && (
                     <TableBody>
                         {contacts.map(contact => {
-                            return (
-                                <TableRow key={contact.contactId}>
-                                    <TableCell>
-                                        {contact.firstName} {contact.lastName}
-                                    </TableCell>
-                                    <TableCell>{contact.email}</TableCell>
-                                    <TableCell>{contact.phone}</TableCell>
-                                    <TableCell>
-                                        {contact.jobTitle && contact.company
-                                            ? `${contact.jobTitle}, ${contact.company}`
-                                            : contact.jobTitle
-                                            ? contact.JobTitle
-                                            : contact.company}
-                                    </TableCell>
-                                </TableRow>
-                            );
+                            return <Contact key={contact.contactId} contact={contact} />;
                         })}
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Job title &amp; company</TableCell>
+                        </TableRow>
                     </TableBody>
                 )}
             </Table>
@@ -84,6 +154,8 @@ export default function Home() {
                     <Typography variant='h6'>You currently have no contacts saved.</Typography>
                 </div>
             )}
+            <CreateContactDialog />
+            <EditContactDialog />
         </Fragment>
     );
 }

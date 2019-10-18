@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.grey[200],
         boxShadow: 'none',
         borderBottom: `1px solid ${theme.palette.grey[400]}`,
+        flexGrow: 0,
     },
     title: {
         marginRight: theme.spacing(2),
@@ -94,7 +95,7 @@ export default function Navbar() {
     const { HOME, LOGIN, SIGNUP } = routes;
 
     return (
-        <AppBar position='static' className={classes.appBar}>
+        <AppBar position='static' className={classes.appBar} id='app-bar'>
             <Toolbar className={classes.toolbar}>
                 <section className={classes.menuItems}>
                     <IconButton onClick={handleToggleSidebar} className={classes.sideBarToggle}>

@@ -32,18 +32,21 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: theme.palette.grey[50],
-        height: '100vh',
+        height: 560,
     },
     root: {
         display: 'flex',
+        flexGrow: 1,
     },
     contentArea: {
         flexGrow: 1,
+        // height: '100%',
         marginLeft: -styleConstants.drawerWidth,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        overflowY: 'auto',
     },
     contentAreaShift: {
         marginLeft: 0,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 //components
-import CreateContact from './CreateContact';
+import CreateContactButton from './CreateContactButton';
 
 //redux
 import { useSelector } from 'react-redux';
@@ -50,7 +50,7 @@ export default function Sidebar() {
             <div className={classes.toolbar} />
             <List>
                 <ListItem>
-                    <CreateContact />
+                    <CreateContactButton />
                 </ListItem>
                 {Array(1, 1, 1, 1, 1, 1).map((_, index) => {
                     return (
