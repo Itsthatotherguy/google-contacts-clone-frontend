@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 
 //styles
 const useStyles = makeStyles(theme => ({
-    progressIndicatorWrapper: {
+    wrapper: {
         width: '100%',
         textAlign: 'center',
         marginTop: theme.spacing(3),
@@ -62,7 +62,11 @@ export default function Home() {
                                     <TableCell>{contact.email}</TableCell>
                                     <TableCell>{contact.phone}</TableCell>
                                     <TableCell>
-                                        {contact.jobTitle}, {contact.company}
+                                        {contact.jobTitle && contact.company
+                                            ? `${contact.jobTitle}, ${contact.company}`
+                                            : contact.jobTitle
+                                            ? contact.JobTitle
+                                            : contact.company}
                                     </TableCell>
                                 </TableRow>
                             );
@@ -71,8 +75,13 @@ export default function Home() {
                 )}
             </Table>
             {isLoading && (
-                <div className={classes.progressIndicatorWrapper}>
+                <div className={classes.wrapper}>
                     <CircularProgress />
+                </div>
+            )}
+            {!isLoading && contacts.length === 0 && (
+                <div className={classes.wrapper}>
+                    <Typography variant='h6'>You currently have no contacts saved.</Typography>
                 </div>
             )}
         </Fragment>

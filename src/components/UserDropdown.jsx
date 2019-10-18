@@ -44,7 +44,7 @@ export default function UserDropdown() {
     const classes = useStyles();
 
     const image = new Image();
-    image.src = imageUrl;
+    if (imageUrl) image.src = imageUrl;
     image.onload = () => {
         setIsImageLoading(false);
     };

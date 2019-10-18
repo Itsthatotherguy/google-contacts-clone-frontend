@@ -17,3 +17,12 @@ export const setAuthorizationHeader = token => {
 export const getUserData = () => {
     return axios.get('/user');
 };
+
+export const isObjectEmpty = object => {
+    let isEmpty = true;
+    Object.keys(object).forEach(key => {
+        if (object[key].length > 0) isEmpty = false;
+    });
+
+    return isEmpty;
+};

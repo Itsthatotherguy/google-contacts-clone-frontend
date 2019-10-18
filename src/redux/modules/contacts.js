@@ -8,16 +8,58 @@ const CLEAR_ERRORS = 'contacts/CLEAR_ERRORS';
 const FETCH_CONTACTS_STARTED = 'contacts/FETCH_CONTACTS_STARTED';
 const FETCH_CONTACTS_SUCCEEDED = 'contacts/FETCH_CONTACTS_SUCCEEDED';
 const FETCH_CONTACTS_FAILED = 'contacts/FETCH_CONTACTS_FAILED';
+const OPEN_CREATE_CONTACT_DIALOG = 'contacts/OPEN_CREATE_CONTACT_DIALOG';
+const CLOSE_CREATE_CONTACT_DIALOG = 'contacts/CLOSE_CREATE_CONTACT_DIALOG';
+const CHANGE_NEW_CONTACT_INFO = 'contacts/CHANGE_NEW_CONTACT_INFO';
 
 //ANCHOR reducer
 const initialState = {
     contacts: [],
     isLoading: true,
     errors: {},
+    createContact: {
+        showCreateContactDialog: false,
+        newContact: {
+            firstName: '',
+            lastName: '',
+            jobTitle: '',
+            company: '',
+            email: '',
+            phone: '',
+            notes: '',
+        },
+    },
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
+        case OPEN_CREATE_CONTACT_DIALOG: {
+            return {
+                ...state,
+                createContact: {
+                    ...state.createContact,
+                    showCreateContactDialog: true,
+                },
+            };
+        }
+        case CLOSE_CREATE_CONTACT_DIALOG: {
+            return {
+                ...state,
+                createContact: initialState.createContact,
+            };
+        }
+        case CHANGE_NEW_CONTACT_INFO: {
+            return {
+                ...state,
+                createContact: {
+                    ...state.createContact,
+                    newContact: {
+                        ...state.createContact.newContact,
+                        [action.payload.name]: action.payload.value,
+                    },
+                },
+            };
+        }
         case CREATE_CONTACT_STARTED: {
             return {
                 ...state,
@@ -29,7 +71,8 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                contacts: [action.payload, ...state.contacts],
+                // contacts: [action.payload, ...state.contacts],
+                createContact: initialState.createContact,
             };
         }
         case CREATE_CONTACT_FAILED: {
@@ -71,6 +114,25 @@ export default function(state = initialState, action) {
     }
 }
 //ANCHOR action creators
+export function openCreateContactModal() {
+    return {
+        type: OPEN_CREATE_CONTACT_DIALOG,
+    };
+}
+
+export function closeCreateContactModal() {
+    return {
+        type: CLOSE_CREATE_CONTACT_DIALOG,
+    };
+}
+
+export function changeNewContactInfo(newContactInfo) {
+    return {
+        type: CHANGE_NEW_CONTACT_INFO,
+        payload: newContactInfo,
+    };
+}
+
 function createContactStarted() {
     return {
         type: CREATE_CONTACT_STARTED,
@@ -106,6 +168,7 @@ function fetchContactsStarted() {
 function fetchContactsSucceeded(contacts) {
     return {
         type: FETCH_CONTACTS_SUCCEEDED,
+        isLoading: false,
         payload: contacts,
     };
 }
@@ -113,19 +176,23 @@ function fetchContactsSucceeded(contacts) {
 function fetchContactsFailed(errors) {
     return {
         type: FETCH_CONTACTS_FAILED,
+        isLoading: false,
         payload: errors,
     };
 }
 
 //ANCHOR side effects
-export function createContact(newContact) {
-    return dispatch => {
+export function createContact() {
+    return (dispatch, getState) => {
         dispatch(createContactStarted());
+
+        const newContact = getState().contacts.createContact.newContact;
 
         axios
             .post('/contact', newContact)
             .then(res => {
                 dispatch(createContactSucceeded(res.data));
+                dispatch(fetchContacts());
             })
             .catch(err => {
                 dispatch(createContactFailed(err.response.data));
