@@ -12,11 +12,6 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-
-//icons
-import AddIcon from '@material-ui/icons/Add';
 
 //utils
 import { styleConstants } from '../utils/constants';
@@ -52,7 +47,7 @@ export default function Sidebar() {
                 <ListItem>
                     <CreateContactButton />
                 </ListItem>
-                {Array(1, 1, 1, 1, 1, 1).map((_, index) => {
+                {[1, 1, 1, 1, 1, 1].map((_, index) => {
                     return (
                         <ListItem key={index}>
                             <ListItemText primary='Bla bla bla' />

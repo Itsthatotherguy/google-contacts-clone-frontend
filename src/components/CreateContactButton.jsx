@@ -1,22 +1,17 @@
 //react
-import React from 'react';
+import React, { Fragment } from 'react';
 
 //redux
 import { useDispatch } from 'react-redux';
 import { openCreateContactModal } from '../redux/modules/contacts';
 
 //mui
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 //icons
 import AddIcon from '@material-ui/icons/Add';
 
-//styles
-const useStyles = makeStyles(theme => ({}));
-
-export default function CreateContact() {
+export default function CreateContact({ className }) {
     //redux
     const dispatch = useDispatch();
 
@@ -25,9 +20,8 @@ export default function CreateContact() {
     };
 
     return (
-        <Button fullWidth variant='contained' color='primary' onClick={handleOpen}>
+        <Button className={className} variant='contained' color='primary' onClick={handleOpen}>
             <AddIcon />
-            <Typography variant='button'>Create contact</Typography>
         </Button>
     );
 }

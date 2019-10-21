@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createSelector } from 'reselect';
 
 //ANCHOR actions
 const CREATE_CONTACT_STARTED = 'contacts/CREATE_CONTACT_STARTED';
@@ -21,12 +22,14 @@ const CHANGE_EDIT_CONTACT_INFO = 'contacts/CHANGE_EDIT_CONTACT_INFO';
 const EDIT_CONTACT_STARTED = 'contacts/EDIT_CONTACT_STARTED';
 const EDIT_CONTACT_SUCCEEDED = 'contacts/EDIT_CONTACT_SUCCEEDED';
 const EDIT_CONTACT_FAILED = 'contacts/EDIT_CONTACT_FAILED';
+const FILTER_CONTACTS = 'contacts/FILTER_CONTACTS';
 
 //ANCHOR reducer
 const initialState = {
     contacts: [],
     isLoading: true,
     errors: {},
+    filterLetter: 'All',
     createContact: {
         showModal: false,
         newContact: {
@@ -72,6 +75,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 createContact: initialState.createContact,
+                errors: {},
             };
         }
         case CHANGE_NEW_CONTACT_INFO: {
@@ -241,6 +245,12 @@ export default function(state = initialState, action) {
                 errors: {},
             };
         }
+        case FILTER_CONTACTS: {
+            return {
+                ...state,
+                filterLetter: action.payload,
+            };
+        }
         default:
             return state;
     }
@@ -368,6 +378,13 @@ function fetchContactsFailed(errors) {
 export function clearErrors() {
     return {
         type: CLEAR_ERRORS,
+    };
+}
+
+export function filterContacts(filterLetter) {
+    return {
+        type: FILTER_CONTACTS,
+        payload: filterLetter,
     };
 }
 

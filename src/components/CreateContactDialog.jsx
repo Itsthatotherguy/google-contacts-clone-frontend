@@ -1,5 +1,5 @@
 //react
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import {
 
 //utils
 import { isObjectEmpty } from '../utils/helpers';
+import clsx from 'clsx';
 
 //mui
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,6 +25,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
 
 //icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -34,11 +36,11 @@ import NotesIcon from '@material-ui/icons/Notes';
 
 //styles
 const useStyles = makeStyles(theme => ({
-    textField: {
-        margin: theme.spacing(0, 0, 0, 1),
-    },
     dialogFooter: {
         padding: theme.spacing(2, 3),
+    },
+    dialogFooterButton: {
+        flex: 1,
     },
     wrapper: {
         position: 'relative',
@@ -54,8 +56,15 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        '&:not(:last-of-type)': {
-            marginBottom: theme.spacing(1),
+    },
+    '@media (min-width: 321px)': {
+        textField: {
+            margin: theme.spacing(0, 0, 0, 1),
+        },
+        gridRow: {
+            '&:not(:last-of-type)': {
+                marginBottom: theme.spacing(1),
+            },
         },
     },
     icon: {
@@ -126,123 +135,236 @@ export default function CreateContact() {
             fullWidth>
             <DialogTitle>Create new contact</DialogTitle>
             <DialogContent>
-                {!!errors.general && (
-                    <Paper className={classes.errorMessageContainer}>
-                        <Typography variant='body1' className={classes.errorMessage}>
-                            {errors.general}
-                        </Typography>
-                    </Paper>
-                )}
-                <section className={classes.gridRow}>
-                    <AccountCircleIcon className={classes.icon} />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='First name'
-                        type='text'
-                        value={firstName}
-                        error={!!errors.firstName}
-                        helperText={errors.firstName ? errors.firstName : ''}
-                        name='firstName'
-                        onChange={handleChange}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Last name'
-                        type='text'
-                        value={lastName}
-                        name='lastName'
-                        onChange={handleChange}
-                        error={!!errors.lastName}
-                        helperText={errors.lastName ? errors.lastName : ''}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                </section>
-                <section className={classes.gridRow}>
-                    <BusinessIcon />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Company'
-                        type='text'
-                        value={company}
-                        name='company'
-                        onChange={handleChange}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Job title'
-                        type='text'
-                        value={jobTitle}
-                        name='jobTitle'
-                        onChange={handleChange}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                </section>
-                <section className={classes.gridRow}>
-                    <EmailIcon />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Email'
-                        type='email'
-                        value={email}
-                        name='email'
-                        onChange={handleChange}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                </section>
-                <section className={classes.gridRow}>
-                    <PhoneIcon />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Phone'
-                        type='tel'
-                        value={phone}
-                        name='phone'
-                        onChange={handleChange}
-                        fullWidth
-                        className={classes.textField}
-                    />
-                </section>
-                <section className={classes.gridRow}>
-                    <NotesIcon />
-                    <TextField
-                        margin='dense'
-                        variant='outlined'
-                        label='Notes'
-                        type='text'
-                        value={notes}
-                        name='notes'
-                        onChange={handleChange}
-                        fullWidth
-                        multiline
-                        rows='3'
-                        className={classes.textField}
-                    />
-                </section>
+                {/* ANCHOR xs breakpoint */}
+                <Hidden mdUp>
+                    {!!errors.general && (
+                        <Paper className={classes.errorMessageContainer}>
+                            <Typography variant='body1' className={classes.errorMessage}>
+                                {errors.general}
+                            </Typography>
+                        </Paper>
+                    )}
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='First name'
+                            type='text'
+                            value={firstName}
+                            error={!!errors.firstName}
+                            helperText={errors.firstName ? errors.firstName : ''}
+                            name='firstName'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Last name'
+                            type='text'
+                            value={lastName}
+                            name='lastName'
+                            onChange={handleChange}
+                            error={!!errors.lastName}
+                            helperText={errors.lastName ? errors.lastName : ''}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Company'
+                            type='text'
+                            value={company}
+                            name='company'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Job title'
+                            type='text'
+                            value={jobTitle}
+                            name='jobTitle'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Email'
+                            type='email'
+                            value={email}
+                            name='email'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Phone'
+                            type='tel'
+                            value={phone}
+                            name='phone'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Notes'
+                            type='text'
+                            value={notes}
+                            name='notes'
+                            onChange={handleChange}
+                            fullWidth
+                            multiline
+                            rows='3'
+                            className={classes.textField}
+                        />
+                    </section>
+                </Hidden>
+                {/* ANCHOR sm breakpoint */}
+                <Hidden smDown>
+                    {!!errors.general && (
+                        <Paper className={classes.errorMessageContainer}>
+                            <Typography variant='body1' className={classes.errorMessage}>
+                                {errors.general}
+                            </Typography>
+                        </Paper>
+                    )}
+                    <section className={classes.gridRow}>
+                        <AccountCircleIcon className={classes.icon} />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='First name'
+                            type='text'
+                            value={firstName}
+                            error={!!errors.firstName}
+                            helperText={errors.firstName ? errors.firstName : ''}
+                            name='firstName'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Last name'
+                            type='text'
+                            value={lastName}
+                            name='lastName'
+                            onChange={handleChange}
+                            error={!!errors.lastName}
+                            helperText={errors.lastName ? errors.lastName : ''}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <BusinessIcon />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Company'
+                            type='text'
+                            value={company}
+                            name='company'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Job title'
+                            type='text'
+                            value={jobTitle}
+                            name='jobTitle'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <EmailIcon />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Email'
+                            type='email'
+                            value={email}
+                            name='email'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <PhoneIcon />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Phone'
+                            type='tel'
+                            value={phone}
+                            name='phone'
+                            onChange={handleChange}
+                            fullWidth
+                            className={classes.textField}
+                        />
+                    </section>
+                    <section className={classes.gridRow}>
+                        <NotesIcon />
+                        <TextField
+                            margin='dense'
+                            variant='outlined'
+                            label='Notes'
+                            type='text'
+                            value={notes}
+                            name='notes'
+                            onChange={handleChange}
+                            fullWidth
+                            multiline
+                            rows='3'
+                            className={classes.textField}
+                        />
+                    </section>
+                </Hidden>
             </DialogContent>
             <DialogActions className={classes.dialogFooter}>
                 {!isLoading && (
-                    <Button onClick={handleClose} color='primary'>
+                    <Button
+                        className={classes.dialogFooterButton}
+                        onClick={handleClose}
+                        color='primary'>
                         Cancel
                     </Button>
                 )}
-                <div className={classes.wrapper}>
+                <div className={clsx(classes.wrapper, classes.dialogFooterButton)}>
                     <Button
                         variant='contained'
                         color='primary'
-                        className={classes.button}
+                        // className={classes.dialogFooterButton}
                         onClick={handleSubmit}
                         disabled={isLoading}>
                         Save

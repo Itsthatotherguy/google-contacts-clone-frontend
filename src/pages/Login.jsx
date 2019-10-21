@@ -16,15 +16,21 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
 
 //utils
 import logo from '../logo.svg';
 import { routes } from '../utils/constants';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     container: {
-        textAlign: 'center',
         margin: '2rem auto',
+        display: 'flex',
+        alignItems: 'center',
+    },
+    paper: {
+        textAlign: 'center',
+        padding: theme.spacing(3),
     },
     image: {
         width: 100,
@@ -44,7 +50,7 @@ const useStyles = makeStyles({
         marginTop: -12,
         marginLeft: -12,
     },
-});
+}));
 
 //TODO sign in with google
 //TODO sign in with facebook
@@ -83,50 +89,54 @@ export default function Login({ history }) {
     const classes = useStyles();
     return (
         <Container maxWidth='xs' className={classes.container}>
-            <img src={logo} alt='group-of-people-icon' className={classes.image} />
-            <Typography variant='h2' className={classes.title}>
-                Login
-            </Typography>
-            <TextField
-                variant='outlined'
-                label='Email'
-                type='text'
-                fullWidth
-                className={classes.textField}
-                value={email}
-                onChange={handleEmailChange}
-                error={!!errors.email}
-                helperText={errors.email ? errors.email : ''}
-            />
-            <TextField
-                variant='outlined'
-                label='Password'
-                type='password'
-                fullWidth
-                className={classes.textField}
-                value={password}
-                onChange={handlePasswordChange}
-                error={!!errors.password}
-                helperText={errors.password ? errors.password : ''}
-            />
-            <div className={classes.wrapper}>
-                <Button
-                    variant='contained'
-                    color='primary'
-                    className={classes.button}
-                    onClick={handleSubmit}
-                    disabled={isLoading}>
+            <Paper className={classes.paper}>
+                <img src={logo} alt='group-of-people-icon' className={classes.image} />
+                <Typography variant='h2' className={classes.title}>
                     Login
-                </Button>
-                {isLoading && <CircularProgress size={24} className={classes.progressIndicator} />}
-            </div>
+                </Typography>
+                <TextField
+                    variant='outlined'
+                    label='Email'
+                    type='text'
+                    fullWidth
+                    className={classes.textField}
+                    value={email}
+                    onChange={handleEmailChange}
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email : ''}
+                />
+                <TextField
+                    variant='outlined'
+                    label='Password'
+                    type='password'
+                    fullWidth
+                    className={classes.textField}
+                    value={password}
+                    onChange={handlePasswordChange}
+                    error={!!errors.password}
+                    helperText={errors.password ? errors.password : ''}
+                />
+                <div className={classes.wrapper}>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        className={classes.button}
+                        onClick={handleSubmit}
+                        disabled={isLoading}>
+                        Login
+                    </Button>
+                    {isLoading && (
+                        <CircularProgress size={24} className={classes.progressIndicator} />
+                    )}
+                </div>
 
-            <Typography variant='body2'>
-                Don't have an account? Sign up{' '}
-                <Link component={RouterLink} to={routes.SIGNUP}>
-                    here
-                </Link>
-            </Typography>
+                <Typography variant='body2'>
+                    Don't have an account? Sign up{' '}
+                    <Link component={RouterLink} to={routes.SIGNUP}>
+                        here
+                    </Link>
+                </Typography>
+            </Paper>
         </Container>
     );
 }

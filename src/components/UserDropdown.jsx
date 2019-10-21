@@ -6,11 +6,13 @@ import { logoutUser } from '../redux/modules/user';
 
 //mui stuff
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
+
+//util
+import { stringToHslColour, getAvatarLetters } from '../utils/helpers';
 
 //styles
 const useStyles = makeStyles(theme => ({
@@ -21,11 +23,10 @@ export default function UserDropdown() {
     //redux
     const dispatch = useDispatch();
     const {
-        credentials: { imageUrl },
+        credentials: { userName },
     } = useSelector(state => state.user);
 
     //react
-    const [isImageLoading, setIsImageLoading] = useState(true);
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = e => {
@@ -43,21 +44,18 @@ export default function UserDropdown() {
     //mui
     const classes = useStyles();
 
-    const image = new Image();
-    if (imageUrl) image.src = imageUrl;
-    image.onload = () => {
-        setIsImageLoading(false);
-    };
-
     return (
         <Fragment>
-            <Button onClick={handleClick} className={classes.menuButton}>
-                {isImageLoading ? (
+            <IconButton size='small' onClick={handleClick} className={classes.menuButton}>
+                {/* {isImageLoading ? (
                     <CircularProgress size={36} />
                 ) : (
                     <Avatar src={imageUrl} alt='user' className={classes.image} />
-                )}
-            </Button>
+                )} */}
+                <Avatar style={{ backgroundColor: stringToHslColour(userName, 30, 50) }}>
+                    {getAvatarLetters(userName)}
+                </Avatar>
+            </IconButton>
             <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>

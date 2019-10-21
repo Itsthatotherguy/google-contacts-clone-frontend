@@ -1,12 +1,9 @@
 //react
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 //redux
 import { useDispatch } from 'react-redux';
 import { openEditContactModal } from '../redux/modules/contacts';
-
-//components
-import EditContactButton from './EditContactButton';
 
 //mui
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,86 +15,81 @@ import IconButton from '@material-ui/core/IconButton';
 //icon
 import EditIcon from '@material-ui/icons/Edit';
 
+//utils
+import { stringToHslColour, getAvatarLetters } from '../utils/helpers';
+
 //styles
 const useStyles = makeStyles(theme => ({
-	name: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	avatar: {
-		marginRight: theme.spacing(2),
-	},
-	hidden: {
-		visibility: 'hidden',
-	},
+    name: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    avatar: {
+        marginRight: theme.spacing(2),
+    },
+    hidden: {
+        visibility: 'hidden',
+    },
 }));
 
 export default function Contact({ contact, columns }) {
-	//redux
-	const dispatch = useDispatch();
+    //redux
+    const dispatch = useDispatch();
 
-	const handleOpen = () => {
-		dispatch(openEditContactModal(contact.contactId));
-	};
+    const handleOpen = () => {
+        dispatch(openEditContactModal(contact.contactId));
+    };
 
-	//react
-	const [hovered, setHovered] = useState(false);
+    //react
+    const [hovered, setHovered] = useState(false);
 
-	useEffect(() => {
-		console.log('Column rearranged');
-	}, []);
+    const handleMouseEnter = e => {
+        setHovered(true);
+    };
 
-	const handleMouseEnter = e => {
-		setHovered(true);
-	};
+    const handleMouseLeave = e => {
+        setHovered(false);
+    };
 
-	const handleMouseLeave = e => {
-		setHovered(false);
-	};
+    //mui
+    const classes = useStyles();
 
-	//mui
-	const classes = useStyles();
+    const cellInfo = {
+        name: `${contact.firstName} ${contact.lastName}`,
+        email: contact.email,
+        phone: contact.phone,
+        jobTitleAndCompany:
+            contact.jobTitle && contact.company
+                ? `${contact.jobTitle}, ${contact.company}`
+                : contact.jobTitle
+                ? contact.JobTitle
+                : contact.company,
+    };
 
-	const avatarLetters = (
-		contact.firstName.charAt(0) + contact.lastName.charAt(0)
-	).toUpperCase();
-
-	const cellInfo = {
-		name: `${contact.firstName} ${contact.lastName}`,
-		email: contact.email,
-		phone: contact.phone,
-		jobTitleAndCompany:
-			contact.jobTitle && contact.company
-				? `${contact.jobTitle}, ${contact.company}`
-				: contact.jobTitle
-				? contact.JobTitle
-				: contact.company,
-	};
-
-	return (
-		<TableRow
-			key={contact.contactId}
-			hover
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
-		>
-			<TableCell>
-				<section className={classes.name}>
-					<Avatar className={classes.avatar}>{avatarLetters}</Avatar>
-					{cellInfo.name}
-				</section>
-			</TableCell>
-			{columns.map((column, index) => (
-				<TableCell key={index}>{cellInfo[column.name]}</TableCell>
-			))}
-			<TableCell>
-				<IconButton
-					className={!hovered ? classes.hidden : ''}
-					onClick={handleOpen}
-				>
-					<EditIcon fontSize='small' />
-				</IconButton>
-			</TableCell>
-		</TableRow>
-	);
+    return (
+        <TableRow
+            key={contact.contactId}
+            hover
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
+            <TableCell>
+                <section className={classes.name}>
+                    <Avatar
+                        style={{ backgroundColor: stringToHslColour(cellInfo.name, 30, 50) }}
+                        className={classes.avatar}>
+                        {getAvatarLetters(contact.firstName, contact.lastName)}
+                    </Avatar>
+                    {cellInfo.name}
+                </section>
+            </TableCell>
+            {columns.map((column, index) => (
+                <TableCell key={index}>{cellInfo[column.name]}</TableCell>
+            ))}
+            <TableCell>
+                <IconButton className={!hovered ? classes.hidden : ''} onClick={handleOpen}>
+                    <EditIcon fontSize='small' />
+                </IconButton>
+            </TableCell>
+        </TableRow>
+    );
 }

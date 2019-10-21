@@ -9,64 +9,55 @@ import { BrowserRouter as Router } from 'react-router-dom';
 //redux
 import configureStore from './redux/configureStore';
 import { Provider } from 'react-redux';
-import {
-	logoutUser,
-	setAuthenticated,
-	getUserData,
-} from './redux/modules/user';
-
-//mui
-import { ThemeProvider } from '@material-ui/core/styles';
+import { logoutUser, setAuthenticated, getUserData } from './redux/modules/user';
 
 //utils
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
-const theme = {};
-
 const store = configureStore();
 
 const renderApp = () => {
-	render(
-		<Provider store={store}>
-			<Router>
-				<App />
-			</Router>
-		</Provider>,
-		document.getElementById('root')
-	);
+    render(
+        <Provider store={store}>
+            <Router>
+                <App />
+            </Router>
+        </Provider>,
+        document.getElementById('root')
+    );
 };
 
 const getToken = () => {
-	return new Promise((resolve, reject) => {
-		try {
-			const token = localStorage.FBIdToken;
-			resolve(token);
-		} catch (err) {
-			reject(null);
-		}
-	});
+    return new Promise((resolve, reject) => {
+        try {
+            const token = localStorage.FBIdToken;
+            resolve(token);
+        } catch (err) {
+            reject(null);
+        }
+    });
 };
 
 getToken().then(token => {
-	console.log(token);
+    console.log(token);
 
-	if (token) {
-		const decodedToken = jwtDecode(token);
-		if (decodedToken.exp * 1000 > Date.now()) {
-			store.dispatch(setAuthenticated());
-			axios.defaults.headers.common['Authorization'] = token;
-			store.dispatch(getUserData());
-		} else {
-			store.dispatch(logoutUser());
-		}
-	}
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp * 1000 > Date.now()) {
+            store.dispatch(setAuthenticated());
+            axios.defaults.headers.common['Authorization'] = token;
+            store.dispatch(getUserData());
+        } else {
+            store.dispatch(logoutUser());
+        }
+    }
 
-	renderApp();
+    renderApp();
 });
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
-	module.hot.accept('./App', renderApp);
+    module.hot.accept('./App', renderApp);
 }
 
 // If you want your app to work offline and load faster, you can change
