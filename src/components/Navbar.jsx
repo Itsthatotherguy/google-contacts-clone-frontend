@@ -30,108 +30,129 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 //styles
 const useStyles = makeStyles(theme => ({
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: theme.palette.grey[200],
-        boxShadow: 'none',
-        borderBottom: `1px solid ${theme.palette.grey[400]}`,
-        flexGrow: 0,
-    },
-    title: {
-        marginRight: theme.spacing(2),
-        color: theme.palette.grey[900],
-    },
-    toolbar: {
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
-    menuItems: {
-        display: 'flex',
-    },
-    search: {
-        flex: 1,
-    },
-    sideBarToggle: {
-        color: theme.palette.grey[900],
-    },
-    searchContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.grey[300],
-    },
-    searchIcon: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: theme.spacing(4),
-        color: theme.palette.grey[600],
-    },
-    searchInput: {
-        color: theme.palette.grey[600],
-        paddingRight: theme.spacing(4),
-    },
-    button: {
-        color: theme.palette.primary.main,
-    },
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+		backgroundColor: theme.palette.grey[200],
+		boxShadow: 'none',
+		borderBottom: `1px solid ${theme.palette.grey[400]}`,
+		flexGrow: 0,
+	},
+	title: {
+		marginRight: theme.spacing(2),
+		color: theme.palette.grey[900],
+	},
+	toolbar: {
+		display: 'flex',
+		justifyContent: 'space-between',
+	},
+	menuItems: {
+		display: 'flex',
+	},
+	search: {
+		flex: 1,
+	},
+	sideBarToggle: {
+		color: theme.palette.grey[900],
+	},
+	searchContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: theme.palette.grey[300],
+	},
+	searchIcon: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginRight: theme.spacing(4),
+		color: theme.palette.grey[600],
+	},
+	searchInput: {
+		color: theme.palette.grey[600],
+		paddingRight: theme.spacing(4),
+	},
+	button: {
+		color: theme.palette.primary.main,
+	},
 }));
 
 export default function Navbar() {
-    //redux
-    const dispatch = useDispatch();
-    const {
-        user: { authenticated },
-    } = useSelector(state => state);
+	//redux
+	const dispatch = useDispatch();
+	const {
+		user: { authenticated },
+	} = useSelector(state => state);
 
-    //react
-    const handleToggleSidebar = () => {
-        dispatch(toggleSidebar());
-    };
+	//react
+	const handleToggleSidebar = () => {
+		dispatch(toggleSidebar());
+	};
 
-    //mui
-    const classes = useStyles();
+	//mui
+	const classes = useStyles();
 
-    //routes
-    const { HOME, LOGIN, SIGNUP } = routes;
+	//routes
+	const { HOME, LOGIN, SIGNUP } = routes;
 
-    return (
-        <AppBar position='static' className={classes.appBar} id='app-bar'>
-            <Toolbar className={classes.toolbar}>
-                <section className={classes.menuItems}>
-                    <IconButton onClick={handleToggleSidebar} className={classes.sideBarToggle}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Button component={Link} to={HOME} className={classes.title}>
-                        Contacts
-                    </Button>
-                </section>
-                {authenticated && (
-                    <section className={classes.search}>
-                        <Container maxWidth='sm' className={classes.searchContainer}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase className={classes.searchInput} fullWidth />
-                        </Container>
-                    </section>
-                )}
-                <section className={classes.userButtons}>
-                    {authenticated ? (
-                        <Fragment>
-                            <UserDropdown />
-                        </Fragment>
-                    ) : (
-                        <Fragment>
-                            <Button component={Link} to={LOGIN} className={classes.button}>
-                                Login
-                            </Button>
-                            <Button component={Link} to={SIGNUP} className={classes.button}>
-                                Signup
-                            </Button>
-                        </Fragment>
-                    )}
-                </section>
-            </Toolbar>
-        </AppBar>
-    );
+	return (
+		<AppBar position='static' className={classes.appBar} id='app-bar'>
+			<Toolbar className={classes.toolbar}>
+				<section className={classes.menuItems}>
+					<IconButton
+						onClick={handleToggleSidebar}
+						className={classes.sideBarToggle}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Button
+						component={Link}
+						to={HOME}
+						className={classes.title}
+					>
+						Contacts
+					</Button>
+				</section>
+				{authenticated && (
+					<section className={classes.search}>
+						<Container
+							maxWidth='sm'
+							className={classes.searchContainer}
+						>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
+							<InputBase
+								className={classes.searchInput}
+								fullWidth
+							/>
+						</Container>
+					</section>
+				)}
+				<section className={classes.userButtons}>
+					{authenticated ? (
+						<Fragment>
+							<UserDropdown />
+						</Fragment>
+					) : (
+						<Fragment>
+							<Button
+								component={Link}
+								to={LOGIN}
+								className={classes.button}
+							>
+								Login
+							</Button>
+							<Button
+								component={Link}
+								to={SIGNUP}
+								className={classes.button}
+							>
+								Signup
+							</Button>
+						</Fragment>
+					)}
+				</section>
+			</Toolbar>
+		</AppBar>
+	);
 }
